@@ -35,7 +35,7 @@ function setList(list) {
         var tr = document.createElement('tr');
         tr.innerHTML = ''.concat('<td>',
          formatDesc(list[key].desc),
-         '</td><td>', list[key].amount,
+         '</td><td>', formatAmount(list[key].amount),
          '</td><td>', formatValue(list[key].value),
          '</td><td><button class="btn btn-default" onclick="setUpdate(', key, ');">Edit</button>',
          '<button class="btn btn-default" onclick="deleteData(', key, ');">Delete</button>');
@@ -66,6 +66,8 @@ function resetForm() {
     document.getElementById('btnAdd').style.display = "inline-block";
 
     document.getElementById('inputIdUpdate').innerHTML = '';
+
+    document.getElementById('errors').style.display="none";
 }
 
 
@@ -76,6 +78,10 @@ function formatDesc(desc) {
     return str;
 }
 
+function formatAmount(amount) {
+    return parseInt(amount);
+}
+
 function formatValue(value) {
     var str = parseFloat(value).toFixed(2) + '';
     str = str.replace('.', ',');
@@ -84,6 +90,10 @@ function formatValue(value) {
 }
 
 function addData() {
+    if (! validation()) {
+        return;
+    }
+
     var desc = document.getElementById('desc').value;
     var amount = document.getElementById('amount').value;
     var value = document.getElementById('value').value;
@@ -98,6 +108,10 @@ function addData() {
 }
 
 function updateData() {
+    if (! validation()) {
+        return;
+    }
+
     var id = document.getElementById('idUpdate').value;
     var desc = document.getElementById('desc').value;
     var value = document.getElementById('value').value;
@@ -130,6 +144,46 @@ function deleteData(id) {
     }
 
     setList(list);
+}
+
+function validation() {
+    var desc = document.getElementById('desc').value;
+    var amount = document.getElementById('amount').value;
+    var value = document.getElementById('value').value;
+
+    var errors = '';
+    
+    if (desc === '') {
+        errors += ('<p>Fill out dscription</p>');
+    }
+
+    if (amount === '') {
+        errors += ('<p>Fill out a quantity</p>');
+    } else if (amount != parseInt(amount)) {
+        errors += ('<p>Fill out a valid quantity</p>');
+    }
+
+    if (value === '') {
+        errors += ('<p>Fill out value</p>');
+    } else if (value != parseInt(value)) {
+        errors += ('<p>Fill out a valid value</p>');
+    }
+
+    var errField = document.getElementById('errors');
+    errField.style.display = "none";
+
+    if (errors !== '') {
+        errField.innerHTML = '<h3>Errors</h4>' + errors;
+        errField.style.display = "block";
+
+        errField.style.backgroundColor = 'rgba(85, 85, 85, 0.3)';
+        errField.style.color = 'white';
+        errField.style.padding = '10px';
+        errField.style.margin = '10px';
+        errField.style.borderRadius = '13px';
+    } else {
+        return 1;
+    }
 }
 
 setList(list);
