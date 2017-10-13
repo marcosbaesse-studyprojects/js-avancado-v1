@@ -38,7 +38,7 @@ function setList(list) {
          '</td><td>', list[key].amount,
          '</td><td>', formatValue(list[key].value),
          '</td><td><button class="btn btn-default" onclick="setUpdate(', key, ');">Edit</button>',
-         '|Delete</td>');
+         '<button class="btn btn-default" onclick="deleteData(', key, ');">Delete</button>');
 
         tableBody.appendChild(tr);
     }
@@ -110,6 +110,25 @@ function updateData() {
     };
 
     resetForm();
+    setList(list);
+}
+
+function deleteData(id) {
+    if (! confirm("Delete this data?")) {
+        return ;
+    }
+
+    if (id === list.length - 1) {
+        list.pop();
+    } else if(id === 0) {
+        list.shift();
+    } else {
+        var arrAuxBegin = list.slice(0, id);
+        var arrAuxEnd = list.slice(id + 1);
+
+        list = arrAuxBegin.concat(arrAuxEnd);
+    }
+
     setList(list);
 }
 
