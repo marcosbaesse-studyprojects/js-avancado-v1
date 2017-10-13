@@ -33,11 +33,41 @@ function setList(list) {
     
     for (var key in list) {
         var tr = document.createElement('tr');
-        tr.innerHTML = ''.concat('<td>', formatDesc(list[key].desc), '</td><td>', list[key].amount, '</td><td>', formatValue(list[key].value), '</td><td>Edit|Delete</td>');
+        tr.innerHTML = ''.concat('<td>',
+         formatDesc(list[key].desc),
+         '</td><td>', list[key].amount,
+         '</td><td>', formatValue(list[key].value),
+         '</td><td><button class="btn btn-default" onclick="setUpdate(', key, ');">Edit</button>',
+         '|Delete</td>');
 
         tableBody.appendChild(tr);
     }
 }
+
+function setUpdate(id) {
+    var obj = list[id];
+
+    document.getElementById('desc').value = obj.desc;
+    document.getElementById('amount').value = obj.amount;
+    document.getElementById('value').value = obj.value;
+
+    document.getElementById('btnUpdate').style.display = "inline-block";
+    document.getElementById('btnAdd').style.display = "none";
+
+    document.getElementById('inputIdUpdate').innerHTML = '<input type="hidden" id="idUpdate" value="'+ id +'">';
+}
+
+function resetForm() {
+    document.getElementById('desc').value = '';
+    document.getElementById('amount').value = '';
+    document.getElementById('value').value = '';
+
+    document.getElementById('btnUpdate').style.display = "none";
+    document.getElementById('btnAdd').style.display = "inline-block";
+
+    document.getElementById('inputIdUpdate').innerHTML = '';
+}
+
 
 function formatDesc(desc) {
     var str = desc.toLowerCase();
@@ -64,6 +94,22 @@ function addData() {
         value: value
     });
 
+    setList(list);
+}
+
+function updateData() {
+    var id = document.getElementById('idUpdate').value;
+    var desc = document.getElementById('desc').value;
+    var value = document.getElementById('value').value;
+    var amount = document.getElementById('amount').value;
+
+    list[id] = {
+        desc: desc,
+        value: value,
+        amount: amount
+    };
+
+    resetForm();
     setList(list);
 }
 
