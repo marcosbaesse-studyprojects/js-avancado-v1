@@ -189,4 +189,13 @@ function validation() {
     }
 }
 
+function deleteList() {
+    if (! confirm('Delete list?')) {
+        return;
+    }
+
+    list = [];
+    setList(list);
+}
+
 setList(list);
