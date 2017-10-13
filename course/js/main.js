@@ -45,6 +45,7 @@ function setList(list) {
     }
 
     getTotal(list);
+    saveListStorage(list);
 }
 
 function setUpdate(id) {
@@ -198,4 +199,19 @@ function deleteList() {
     setList(list);
 }
 
-setList(list);
+function saveListStorage(list) {
+    var jsonStr = JSON.stringify(list);
+    localStorage.setItem('list', jsonStr);
+}
+
+function initListStorage() {
+    var testList = localStorage.getItem('list');
+
+    if (testList) {
+        list = JSON.parse(testList);
+    }
+
+    setList(list);
+}
+
+initListStorage();
