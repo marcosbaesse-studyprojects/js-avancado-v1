@@ -23,6 +23,7 @@ function getTotal(list) {
         total += list[key].value * list[key].amount;
     }
 
+    document.getElementById('totalValue').innerHTML = formatValue(total);
     return total;
 }
 
@@ -42,6 +43,8 @@ function setList(list) {
 
         tableBody.appendChild(tr);
     }
+
+    getTotal(list);
 }
 
 function setUpdate(id) {
@@ -165,7 +168,7 @@ function validation() {
 
     if (value === '') {
         errors += ('<p>Fill out value</p>');
-    } else if (value != parseInt(value)) {
+    } else if (value != parseFloat(value)) {
         errors += ('<p>Fill out a valid value</p>');
     }
 
