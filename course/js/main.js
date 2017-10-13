@@ -33,10 +33,38 @@ function setList(list) {
     
     for (var key in list) {
         var tr = document.createElement('tr');
-        tr.innerHTML = ''.concat('<td>', list[key].desc, '</td><td>', list[key].amount, '</td><td>', list[key].value, '</td><td>Edit|Delete</td>');
+        tr.innerHTML = ''.concat('<td>', formatDesc(list[key].desc), '</td><td>', list[key].amount, '</td><td>', formatValue(list[key].value), '</td><td>Edit|Delete</td>');
 
         tableBody.appendChild(tr);
     }
+}
+
+function formatDesc(desc) {
+    var str = desc.toLowerCase();
+    str = str.charAt(0).toUpperCase() + str.slice(1);
+
+    return str;
+}
+
+function formatValue(value) {
+    var str = parseFloat(value).toFixed(2) + '';
+    str = str.replace('.', ',');
+
+    return 'R$ ' + str;
+}
+
+function addData() {
+    var desc = document.getElementById('desc').value;
+    var amount = document.getElementById('amount').value;
+    var value = document.getElementById('value').value;
+
+    list.unshift({
+        desc: desc,
+        amount: amount,
+        value: value
+    });
+
+    setList(list);
 }
 
 setList(list);
