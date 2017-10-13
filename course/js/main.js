@@ -26,4 +26,17 @@ function getTotal(list) {
     return total;
 }
 
-console.log(getTotal(list));
+function setList(list) {
+    var tableBody = document.getElementById('listTable').getElementsByTagName('tbody')[0];
+
+    tableBody.innerHTML = '';
+    
+    for (var key in list) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = ''.concat('<td>', list[key].desc, '</td><td>', list[key].amount, '</td><td>', list[key].value, '</td><td>Edit|Delete</td>');
+
+        tableBody.appendChild(tr);
+    }
+}
+
+setList(list);
